@@ -1,41 +1,80 @@
-__author__ = 'Ben'
-
 import pygame
 
+# Initialize Pygame
+pygame.init()
 
-def main():
-    pygame.init()
-    screen = pygame.display.set_mode((800, 800))
-    pygame.display.set_caption("Ben's Game")
-    clock = pygame.time.Clock()
-    font_test = pygame.font.Font(None, 50)
+# Set screen size and caption
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("Moon Jump")
 
-    test_surface = pygame.Surface((200, 200))
-    test_surface.fill('Blue')
+# Load player image
+player_image = pygame.image.load("graphics/link.png")
+player_image = pygame.transform.scale(player_image, (40, 40))
 
-    text_surface = font_test.render("coolest dog in the neighborhood", True, 'Green')
+# Set player starting position and velocity
+player_x = 50
+player_y = 50
+player_velocity_x = 0
+player_velocity_y = 0
 
-    background = pygame.image.load('graphics/cool_dog.png')
+# Set Moon's gravity force
+moon_gravity = 0.1
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
+# Set player's movement speed
+player_speed = 3
 
-        screen.blit(background, (45, 150))
-        screen.blit(text_surface, (150, 40))
+# Set player's jumping force
+jumping_force = -10
 
-        pygame.display.update()
-        clock.tick(60)
+# Set floor position
+floor_y = 550
 
+# check if player is jumping
+jumping = False
 
-if __name__ == "__main__":
-    print(r"""    
-          __          ___         
-         / /  __ __  / _ )___ ___ 
-        / _ \/ // / / _  / -_) _ \
-       /_.__/\_, (_)____/\__/_//_/
-            /___/                      
-                         """)
-    main()
+# Main game loop
+running = True
+while running:
+    # Handle events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                player_velocity_x = -player_speed
+            if event.key == pygame.K_RIGHT:
+                player_velocity_x = player_speed
+            if event.key == pygame.K_SPACE:
+                if not jumping:
+                    jumping = True
+                    player_velocity_y = jumping_force
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                player_velocity_x = 0
+
+    # Move player based on velocity
+    player_x += player_velocity_x
+    player_y += player_velocity_y
+
+    # Apply Moon's gravity force to player
+    player_velocity_y += moon_gravity
+
+    # Check for collision with floor
+    if player_y > floor_y - player_image.get_height():
+        player_y = floor_y - player_image.get_height()
+        player_velocity_y = 0
+        jumping = False
+    # Clear screen
+    screen.fill((0, 0, 0))
+
+    # Draw floor
+    pygame.draw.rect(screen, (255, 255, 255), (0, floor_y, 800, 50))
+
+    # Draw player
+    screen.blit(player_image, (player_x, player_y))
+
+    # Update display
+    pygame.display.update()
+
+# Quit Pygame
+pygame.quit()
