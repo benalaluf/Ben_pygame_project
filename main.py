@@ -8,8 +8,11 @@ screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Moon Jump")
 
 # Load player image
-player_image = pygame.image.load("graphics/link.png")
-player_image = pygame.transform.scale(player_image, (40, 40))
+player_right = pygame.image.load("graphics/link.png")
+player_left = pygame.image.load("graphics/link right.png")
+player_right = pygame.transform.scale(player_right, (40, 40))
+player_left = pygame.transform.scale(player_left, (40, 40))
+
 
 font = pygame.font.Font(None, 50)
 text_srf = font.render("The Moon:", False, 'white')
@@ -19,7 +22,7 @@ player_x = 50
 player_y = 50
 player_velocity_x = 0
 player_velocity_y = 0
-
+isRight = True
 # Set Moon's gravity force
 moon_gravity = 0.1
 
@@ -63,8 +66,8 @@ while running:
     player_velocity_y += moon_gravity
 
     # Check for collision with floor
-    if player_y > floor_y - player_image.get_height():
-        player_y = floor_y - player_image.get_height()
+    if player_y > floor_y - 40:
+        player_y = floor_y - 40
         player_velocity_y = 0
         jumping = False
 
@@ -80,7 +83,18 @@ while running:
     pygame.draw.rect(screen, (255, 255, 255), (0, floor_y, 800, 50))
 
     # Draw player
-    screen.blit(player_image, (player_x, player_y))
+    if player_velocity_x > 0:
+        screen.blit(player_right, (player_x, player_y))
+        isRight = True
+    elif player_velocity_x < 0:
+        screen.blit(player_left, (player_x, player_y))
+        isRight = False
+    elif player_velocity_x == 0:
+        if isRight:
+            screen.blit(player_right, (player_x, player_y))
+        else:
+            screen.blit(player_left, (player_x, player_y))
+
     screen.blit(text_srf,(300,200))
 
     # Update display
