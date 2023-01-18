@@ -11,6 +11,9 @@ pygame.display.set_caption("Moon Jump")
 player_image = pygame.image.load("graphics/link.png")
 player_image = pygame.transform.scale(player_image, (40, 40))
 
+font = pygame.font.Font(None, 50)
+text_srf = font.render("The Moon:", False, 'white')
+
 # Set player starting position and velocity
 player_x = 50
 player_y = 50
@@ -21,7 +24,7 @@ player_velocity_y = 0
 moon_gravity = 0.1
 
 # Set player's movement speed
-player_speed = 3
+player_speed = 4
 
 # Set player's jumping force
 jumping_force = -10
@@ -64,6 +67,12 @@ while running:
         player_y = floor_y - player_image.get_height()
         player_velocity_y = 0
         jumping = False
+
+    if player_x > 760:
+        player_x = 760
+
+    if player_x < 0:
+        player_x = 0
     # Clear screen
     screen.fill((0, 0, 0))
 
@@ -72,9 +81,9 @@ while running:
 
     # Draw player
     screen.blit(player_image, (player_x, player_y))
+    screen.blit(text_srf,(300,50))
 
     # Update display
     pygame.display.update()
 
 # Quit Pygame
-pygame.quit()
