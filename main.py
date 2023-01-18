@@ -81,7 +81,7 @@ while running:
 
     # Draw player
     screen.blit(player_image, (player_x, player_y))
-    screen.blit(text_srf,(300,50))
+    screen.blit(text_srf,(300,200))
 
     # Update display
     pygame.display.update()
