@@ -8,9 +8,14 @@ def main():
     screen = pygame.display.set_mode((800, 800))
     pygame.display.set_caption("Ben's Game")
     clock = pygame.time.Clock()
+    font_test = pygame.font.Font(None, 50)
 
-    test_surface = pygame.Surface((100, 200))
+    test_surface = pygame.Surface((200, 200))
     test_surface.fill('Blue')
+
+    text_surface = font_test.render("coolest dog in the neighborhood", True, 'Green')
+
+    background = pygame.image.load('graphics/cool_dog.png')
 
     while True:
         for event in pygame.event.get():
@@ -18,7 +23,9 @@ def main():
                 pygame.quit()
                 exit()
 
-        screen.blit(test_surface, (0, 0))
+        screen.blit(background, (45, 150))
+        screen.blit(text_surface, (150, 40))
+
         pygame.display.update()
         clock.tick(60)
 
