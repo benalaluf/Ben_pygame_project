@@ -9,7 +9,7 @@ def main():
     pygame.display.set_caption("Ben's Game")
     clock = pygame.time.Clock()
 
-    test_surface = pygame.Surface((100, 200))
+    test_surface = pygame.Surface((100, 100))
     test_surface.fill('Blue')
 
     while True:
@@ -18,7 +18,7 @@ def main():
                 pygame.quit()
                 exit()
 
-        screen.blit(test_surface, (0, 0))
+        screen.blit(test_surface, (350, 350))
         pygame.display.update()
         clock.tick(60)
 
