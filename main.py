@@ -50,10 +50,12 @@ while running:
                 player_velocity_x = -player_speed
             if event.key == pygame.K_RIGHT:
                 player_velocity_x = player_speed
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
                 if not jumping:
                     jumping = True
                     player_velocity_y = jumping_force
+            if event.key == pygame.K_DOWN:
+                player_velocity_y = 6
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 player_velocity_x = 0
